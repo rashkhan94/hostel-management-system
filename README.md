@@ -27,6 +27,22 @@
 
 ---
 
+## 📸 Screenshots
+
+| **Admin Dashboard** | **Room Management** |
+|---------------------|---------------------|
+| ![Admin Dashboard](screenshots/admin_dashboard.png) | ![Room Management](screenshots/rooms.png) |
+| *Overview of stats & charts* | *Visual room grid & allocation* |
+
+| **Student Portal** | **Login Screen** |
+|--------------------|------------------|
+| ![Student Portal](screenshots/student_dashboard.png) | ![Login Screen](screenshots/login.png) |
+| *Personalized student view* | *Secure authentication* |
+
+> *Note: Please add your own screenshots to the `screenshots/` folder with these filenames to populate this section!*
+
+---
+
 ## ✨ Features
 
 ### 👑 Admin Dashboard
