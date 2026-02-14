@@ -28,6 +28,22 @@ app.use('/api/meals', require('./routes/mealRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
+// Seed endpoint (call once after deployment to populate database)
+app.post('/api/seed', async (req, res) => {
+    try {
+        const User = require('./models/User');
+        const existing = await User.countDocuments();
+        if (existing > 0) {
+            return res.json({ success: false, message: 'Database already seeded. Delete data first to re-seed.' });
+        }
+        const seedData = require('./utils/seed');
+        await seedData();
+        res.json({ success: true, message: 'Database seeded successfully!' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
