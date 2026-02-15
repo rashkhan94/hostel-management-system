@@ -9,11 +9,13 @@ import ProtectedRoute from './components/layout/ProtectedRoute';
 
 // Auth
 import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 // Admin
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageRooms from './pages/admin/ManageRooms';
 import ManageStudents from './pages/admin/ManageStudents';
+import ManageWardens from './pages/admin/ManageWardens';
 
 // Warden
 import WardenDashboard from './pages/warden/WardenDashboard';
@@ -55,6 +57,7 @@ function App() {
           <Routes>
             {/* Public */}
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/" element={<RedirectHome />} />
 
             {/* Admin Routes */}
@@ -63,7 +66,7 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/rooms" element={<ManageRooms />} />
                 <Route path="/admin/students" element={<ManageStudents />} />
-                <Route path="/admin/wardens" element={<ManageStudents />} />
+                <Route path="/admin/wardens" element={<ManageWardens />} />
                 <Route path="/admin/fees" element={<Fees />} />
                 <Route path="/admin/complaints" element={<Complaints />} />
                 <Route path="/admin/meals" element={<MealSchedule />} />

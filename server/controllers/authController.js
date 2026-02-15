@@ -41,6 +41,50 @@ exports.register = async (req, res) => {
     }
 };
 
+// @desc    Register a new student (public)
+// @route   POST /api/auth/register-student
+// @access  Public
+exports.registerStudent = async (req, res) => {
+    try {
+        const { name, email, password, phone, studentId, department, year, parentName, parentPhone, address } = req.body;
+
+        if (!name || !email || !password || !studentId || !department || !year) {
+            return res.status(400).json({ success: false, message: 'Please fill all required fields' });
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: 'Email already registered' });
+        }
+
+        const existingStudentId = await User.findOne({ studentId });
+        if (existingStudentId) {
+            return res.status(400).json({ success: false, message: 'Student ID already exists' });
+        }
+
+        const user = await User.create({
+            name, email, password, role: 'student',
+            phone, studentId, department, year, parentName, parentPhone, address
+        });
+
+        const token = user.generateToken();
+
+        res.status(201).json({
+            success: true,
+            message: 'Registration successful! You can now login.',
+            token,
+            data: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
