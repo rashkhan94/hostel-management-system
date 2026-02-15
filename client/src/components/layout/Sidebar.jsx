@@ -4,11 +4,11 @@ import {
     LayoutDashboard, BedDouble, Users, ClipboardList,
     CreditCard, UtensilsCrossed, Bell, Settings,
     ChevronLeft, ChevronRight, Building2, UserCog,
-    MessageSquareWarning, FileText
+    MessageSquareWarning, FileText, X
 } from 'lucide-react';
 import { useState } from 'react';
 
-const Sidebar = ({ collapsed, setCollapsed }) => {
+const Sidebar = ({ collapsed, setCollapsed, mobileOpen, closeMobile }) => {
     const { user } = useAuth();
     const location = useLocation();
 
@@ -46,45 +46,57 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             : studentLinks;
 
     return (
-        <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
-            <div className="sidebar-header">
-                <div className="sidebar-logo">
-                    <Building2 size={20} />
+        <>
+            {/* Dark overlay when sidebar is open on mobile */}
+            {mobileOpen && (
+                <div className="sidebar-overlay" onClick={closeMobile} />
+            )}
+
+            <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
+                <div className="sidebar-header">
+                    <div className="sidebar-logo">
+                        <Building2 size={20} />
+                    </div>
+                    <span className="sidebar-brand">HostelHub</span>
+                    {/* Close button visible only on mobile */}
+                    <button className="sidebar-close-btn" onClick={closeMobile}>
+                        <X size={20} />
+                    </button>
                 </div>
-                <span className="sidebar-brand">HostelHub</span>
-            </div>
 
-            <div className="sidebar-section-title">
-                {user?.role === 'admin' ? 'Administration' : user?.role === 'warden' ? 'Warden Panel' : 'Student Portal'}
-            </div>
+                <div className="sidebar-section-title">
+                    {user?.role === 'admin' ? 'Administration' : user?.role === 'warden' ? 'Warden Panel' : 'Student Portal'}
+                </div>
 
-            <nav className="sidebar-nav">
-                {links.map(link => {
-                    const Icon = link.icon;
-                    const isActive = link.to === `/${user?.role}`
-                        ? location.pathname === link.to
-                        : location.pathname.startsWith(link.to);
+                <nav className="sidebar-nav">
+                    {links.map(link => {
+                        const Icon = link.icon;
+                        const isActive = link.to === `/${user?.role}`
+                            ? location.pathname === link.to
+                            : location.pathname.startsWith(link.to);
 
-                    return (
-                        <NavLink
-                            key={link.to}
-                            to={link.to}
-                            className={`nav-item ${isActive ? 'active' : ''}`}
-                        >
-                            <Icon className="nav-icon" size={20} />
-                            <span className="nav-label">{link.label}</span>
-                        </NavLink>
-                    );
-                })}
-            </nav>
+                        return (
+                            <NavLink
+                                key={link.to}
+                                to={link.to}
+                                className={`nav-item ${isActive ? 'active' : ''}`}
+                                onClick={closeMobile}
+                            >
+                                <Icon className="nav-icon" size={20} />
+                                <span className="nav-label">{link.label}</span>
+                            </NavLink>
+                        );
+                    })}
+                </nav>
 
-            <div className="sidebar-footer">
-                <button className="sidebar-toggle" onClick={() => setCollapsed(!collapsed)}>
-                    {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-                    {!collapsed && <span>Collapse</span>}
-                </button>
-            </div>
-        </aside>
+                <div className="sidebar-footer">
+                    <button className="sidebar-toggle" onClick={() => setCollapsed(!collapsed)}>
+                        {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+                        {!collapsed && <span>Collapse</span>}
+                    </button>
+                </div>
+            </aside>
+        </>
     );
 };
 

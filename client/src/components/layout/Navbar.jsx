@@ -50,8 +50,7 @@ const Navbar = ({ collapsed, title, subtitle, onMobileToggle }) => {
     return (
         <nav className={`navbar ${collapsed ? 'collapsed' : ''}`}>
             <div className="navbar-left">
-                <button className="btn-ghost btn-icon mobile-menu-btn" onClick={onMobileToggle}
-                    style={{ display: 'none' }}>
+                <button className="btn-ghost btn-icon mobile-menu-btn" onClick={onMobileToggle}>
                     <Menu size={20} />
                 </button>
                 <div>
